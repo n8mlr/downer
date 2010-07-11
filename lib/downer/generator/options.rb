@@ -9,15 +9,15 @@ class Downer
         
         @orig_args = args.clone
         @opts = OptionParser.new do |o|
-          o.banner = "Usage: #{File.basename($0)} [options] file-with-urls.txt DESTINATION_DIR"
+          o.banner = "Usage: #{File.basename($0)} URLS.txt DESTINATION_DIR"
           
-          o.on('-u USERNAME (optional)', 'specify the username credential to be sent in request') do |user_name|
-            self[:user_name] = user_name
-          end
-          
-          o.on('-p PASSWORD (optional)', 'specify the password credential to be sent in request') do |password|
-            self[:password] = password
-          end
+          # o.on('-u USERNAME (optional)', 'specify the username credential to be sent in request') do |user_name|
+          #   self[:user_name] = user_name
+          # end
+          # 
+          # o.on('-p PASSWORD (optional)', 'specify the password credential to be sent in request') do |password|
+          #   self[:password] = password
+          # end
         end
         
         begin

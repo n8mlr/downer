@@ -1,16 +1,18 @@
-= batch-downloader
+= Downer
 
-Description goes here.
+Downer is a simple personal tool used to download a sequential list of URLs contained in a text file.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+Usage:
+
+myFile.txt:
+http://ruby-doc.org/core/classes/String.html
+http://ruby-doc.org/core/files/string_c.html
+http://www.urbaninfluence.com/sites/default/files/user_uploads/images/Porsche.png
+http://www.urbaninfluence.com/brand-blog
+
+From bash:
+$ downer myfile.txt ~/Desktop/myFolder # Donwloads each file into the myFolder directory
+
 
 == Copyright
 
