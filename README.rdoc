@@ -3,15 +3,10 @@
 Downer is a simple personal tool used to download a sequential list of URLs contained in a text file.
 
 == Usage:
-
-=== myFile.txt:
-# http://ruby-doc.org/core/classes/String.html
-# http://ruby-doc.org/core/files/string_c.html
-# http://www.urbaninfluence.com/sites/default/files/user_uploads/images/Porsche.png
-# http://www.urbaninfluence.com/brand-blog
+Create a single text file, each line containing a url you wish to download. 
 
 === From bash:
-$ downer myfile.txt ~/Desktop/myFolder # Donwloads each file into the myFolder directory
+$ downer myfile.txt ~/Desktop/myFolder # will donwload each file into the myFolder directory
 
 
 == Copyright
