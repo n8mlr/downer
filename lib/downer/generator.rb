@@ -1,5 +1,6 @@
 class Downer
   class WriteFailed < StandardError; end
+  class BadUrl < StandardError; end
   class MalformedManifest < StandardError; end
   class NoManifestFileGiven < StandardError; end
   class NoTargetDirectoryGiven < StandardError; end

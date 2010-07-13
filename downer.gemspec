@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nate Miller"]
-  s.date = %q{2010-07-11}
+  s.date = %q{2010-07-12}
   s.default_executable = %q{downer}
   s.description = %q{Downer is a tool used to download a list of urls from a website thorugh HTTP.}
   s.email = %q{nate@natemiller.org}
@@ -24,18 +24,26 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
-     "spec/batch-downloader_spec.rb",
+     "bin/downer",
+     "downer.gemspec",
+     "lib/downer.rb",
+     "lib/downer/generator.rb",
+     "lib/downer/generator/application.rb",
+     "lib/downer/generator/download_item.rb",
+     "lib/downer/generator/download_worker.rb",
+     "lib/downer/generator/options.rb",
+     "spec/downer/generator_spec.rb",
      "spec/spec.opts",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "version.yml"
   ]
   s.homepage = %q{http://github.com/nate63179/downer}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Bulk downloading utitlity}
   s.test_files = [
-    "spec/batch-downloader_spec.rb",
-     "spec/downer/generator_spec.rb",
+    "spec/downer/generator_spec.rb",
      "spec/spec_helper.rb"
   ]
 
@@ -43,7 +51,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])

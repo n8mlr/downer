@@ -11,7 +11,8 @@ class Downer
         @targets = []
         @write_directory = write_directory
         urls.each do |url|
-          @targets << DownloadItem.new(url)
+          item = try_create_download_item(url)
+          @targets << item if item
         end
       end
       
@@ -21,10 +22,21 @@ class Downer
           if item.download
             fout = File.new("#{@write_directory}#{item.filename}", 'w')
             fout.puts item.content
-            $stdout.puts "Downloaded #{item.filename}"
+            $stdout.puts "Downloaded:: #{item.filename}"
           else
-            $stderr.puts "Could not retrieve #{item.uri}"
+            $stderr.puts "Could not retrieve:: #{item.uri}"
           end
+        end
+      end
+    
+      private
+      
+      def try_create_download_item(url)
+        begin
+          di = DownloadItem.new(url)
+          return di
+        rescue URI::InvalidURIError => e
+          $stderr.puts "Skipped bad url: #{url}"
         end
       end
     end
