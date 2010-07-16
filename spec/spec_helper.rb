@@ -7,3 +7,12 @@ require 'spec/autorun'
 Spec::Runner.configure do |config|
   
 end
+
+
+def fixture_directory
+  File.expand_path('../fixtures', __FILE__)
+end
+
+def tmp_directory
+  File.expand_path('../../tmp', __FILE__)
+end

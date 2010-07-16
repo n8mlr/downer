@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require 'downer/generator'
+require 'downer'
 
-exit Downer::Generator::Application.run!(*ARGV)
+app = Downer::Application.new
+exit app.run!(*ARGV)
+#exit Downer::Generator::Application.run!(*ARGV)
