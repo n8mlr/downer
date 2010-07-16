@@ -4,4 +4,3 @@ require 'downer'
 
 app = Downer::Application.new
 exit app.run!(*ARGV)
-#exit Downer::Generator::Application.run!(*ARGV)
