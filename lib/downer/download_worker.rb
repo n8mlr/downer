@@ -19,6 +19,7 @@ module Downer
     end
     
     private
+
       def try_download_item(item)
         begin
           item.download
@@ -26,7 +27,6 @@ module Downer
         rescue Downer::FailedDownload => e
           @output.puts "Could not download #{e.url}, received http code #{e.http_code}"
         end
-        
       end
   end
 end

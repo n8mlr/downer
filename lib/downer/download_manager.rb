@@ -21,7 +21,6 @@ module Downer
     end
     
     def start
-
       raise WriteFailed unless File.writable?(@target_directory)
 
       @output.puts "Starting download on #{@urls.size} files"

@@ -24,10 +24,8 @@ module Downer
         manager = Downer::DownloadManager.new(@options[:file_manifest], @options[:target_directory], @output)
         manager.start
         return 0
-      rescue Downer::MalformedManifest
-        $stderr.puts %Q{Improper format of manifest file}
       rescue Downer::WriteFailed
-        $stderr.puts %Q{Insufficient permissions to write to directory}
+        @output.puts %Q{Insufficient permissions to write to directory}
         return 1
       end
     end
