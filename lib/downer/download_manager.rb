@@ -8,15 +8,16 @@ module Downer
   
   class DownloadManager
     
-    attr_accessor :file_manifest, :target_directory, :output
+    attr_accessor :target_directory, :output
     attr_reader :urls
     
     def initialize(url_source, target_directory, output)
-      @file_manifest, @target_directory, @output = url_source, target_directory, output
-      dir_last_char_is_slash = (@target_directory[-1,1] == '/')
-      @target_directory = @target_directory + '/' unless dir_last_char_is_slash
+      @url_source = url_source
+      @output = output
+      @target_directory = sanitize_target_directory(target_directory)
+      
       @urls = []
-      raise URLSourceDoesNotExist unless File.exists?(@file_manifest) 
+      raise URLSourceDoesNotExist unless File.exists?(@url_source) 
       get_urls      
     end
     
@@ -31,8 +32,15 @@ module Downer
     protected
     
       def get_urls
-        f = File.open(@file_manifest, 'r')
+        f = File.open(@url_source, 'r')
         f.each_line { |line| @urls << line.chomp }
+      end
+      
+      
+      def sanitize_target_directory(dir_name)
+        dir_last_char_is_slash = (dir_name[-1,1] == '/')
+        dir_name = dir_name + '/' unless dir_last_char_is_slash
+        dir_name
       end
     
   end

@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '../../spec_helper')
 
 module Downer
+
   describe DownloadManager do
     let(:output) { double('output').as_null_object }
     let(:fixture_file_path) { fixture_directory + '/some_images.txt' }
