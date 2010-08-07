@@ -11,18 +11,10 @@ module Downer
       it "should add a slash as the last character of the target directory if one is not present" do
         manager.target_directory.should == 'myoutputdir/'
       end
-            
-      it "should retrieve all urls from the url source" do
-        manager.urls.should_not be_empty
-      end
     end
     
     describe "#start" do
       
-      it "should raise an error when the file does not exist" do
-        File.should_receive(:exists?).with(fixture_file_path)
-        lambda { manager.start }.should raise_error(Downer::URLSourceDoesNotExist)
-      end
       it "should raise a WriteFailed exception if the target directory is not writable" do
         File.should_receive(:writable?).with('myoutputdir/').and_return(false)
         lambda { manager.start }.should raise_error(Downer::WriteFailed)
@@ -36,6 +28,17 @@ module Downer
         DownloadWorker.should_receive(:new).and_return(worker)
         manager.start
       end
+      
+      it "should resolve to use a flat file strategy when it receives a file data source" do
+        dm = DownloadManager.new(fixture_file_path, 'myoutputdir', output)
+        dm.source_type.should == "flatfile"
+      end
+      
+      it "should resolve to use a web strategy when it receives a data source that looks like a url" do
+        dm = DownloadManager.new('http://www.msn.com', 'myoutputdir', output)
+        dm.source_type.should == "website"
+      end
+      
     end
       
   end

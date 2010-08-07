@@ -5,39 +5,41 @@ module Downer
   class NoManifestFileGiven < StandardError; end
   class NoTargetDirectoryGiven < StandardError; end
   class URLSourceDoesNotExist < StandardError; end
+
   
   class DownloadManager
     
-    attr_accessor :target_directory, :output
+    attr_accessor :target_directory, :output, :source_type
     attr_reader :urls
     
-    def initialize(url_source, target_directory, output)
+    def initialize(url_source, target_directory, output, options ={})
       @url_source = url_source
       @output = output
-      @target_directory = sanitize_target_directory(target_directory)
-      
-      @urls = []
-      raise URLSourceDoesNotExist unless File.exists?(@url_source) 
-      get_urls      
+      @target_directory = append_slash_to_path(target_directory) 
+      @strategy = StrategyFinder::find_strategy(@url_source, options)
     end
     
     def start
       raise WriteFailed unless File.writable?(@target_directory)
-
-      @output.puts "Starting download on #{@urls.size} files"
-      worker = DownloadWorker.new(@urls, @target_directory, @output)
-      worker.start
+      
+      if @strategy && @strategy.source_valid?
+        urls = @strategy.get_urls
+        @output.puts "Starting download on #{urls.size} files"
+        worker = DownloadWorker.new(urls, @target_directory, @output)
+        worker.start
+      else
+        @output.puts "Could not open url source #{@url_source}"
+      end
+    end
+    
+    def source_type
+      @strategy.source_type
     end
     
     protected
-    
-      def get_urls
-        f = File.open(@url_source, 'r')
-        f.each_line { |line| @urls << line.chomp }
-      end
       
-      
-      def sanitize_target_directory(dir_name)
+      # Put a slash on the directory name if one was ommited
+      def append_slash_to_path(dir_name)
         dir_last_char_is_slash = (dir_name[-1,1] == '/')
         dir_name = dir_name + '/' unless dir_last_char_is_slash
         dir_name

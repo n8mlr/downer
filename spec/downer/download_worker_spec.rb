@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '../../spec_helper')
 module Downer
   describe DownloadWorker do
     let (:output) { double('output') }
-    let (:urls) { DownloadManager.new(fixture_directory + '/some_images.txt', '/tmp', output).urls }
+    let (:urls) { DownloadStrategy::FlatFileStrategy.new(fixture_directory + "/some_images.txt").get_urls }
     
     describe '#start' do 
       it "should write a message to output when no urls exist to be downloaded" do

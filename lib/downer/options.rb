@@ -3,10 +3,20 @@ module Downer
     attr_reader :opts, :orig_args
     
     def initialize(args)
-      
-      @orig_args = args.clone
+      @opts = args.clone
+      self[:is_website] = false
+      self[:images] = false
+
       @opts = OptionParser.new do |o|
-        o.banner = "Usage: downer URL_SOURCE DESTINATION_DIR"
+        o.banner = "Usage: downer -flags URL_SOURCE DESTINATION_DIR"
+        
+        o.on('-w', '--web', 'Declare source as a url') do |url|
+          self[:is_website] = true
+        end
+        
+        o.on('-i', '--image', 'When combined with w will download JPG,GIF,PNG formats') do
+          self[:images] = true
+        end
       end
       
       begin
