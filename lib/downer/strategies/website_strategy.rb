@@ -4,8 +4,8 @@ module Downer
     class WebsiteStrategy < GenericStrategy      
       
       # Create the downloading strategy, set any behavior flags in the options hash
-      def initialize(source, search_options = {})
-        super(source, search_options)
+      def initialize(url_source, search_options = {})
+        super(url_source, search_options)
       end
       
       # Retrieve urls from an HTML page. Behavior is dependent upon options passed
@@ -25,7 +25,7 @@ module Downer
       
       # read an html page into memory
       def download_page
-        @downloaded_page ||= Kernel.open(@url_source)
+        @downloaded_page ||= open(@url_source)
       end
       
       def image_urls
@@ -40,6 +40,10 @@ module Downer
           urls << alink['href']
         end
         urls
+      end
+      
+      def source_valid?
+        URI::parse(@url_source)
       end
       
     end

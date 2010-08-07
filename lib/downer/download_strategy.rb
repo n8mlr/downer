@@ -12,7 +12,7 @@ module Downer
         elsif is_remote_source?(url_source)
           strategy = DownloadStrategy::WebsiteStrategy.new(url_source, options)
         else
-          # pooo...
+          raise "Could not find strategy"
         end
         strategy
       end
