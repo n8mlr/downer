@@ -4,6 +4,13 @@ module Downer
   module DownloadStrategy
     describe WebsiteStrategy do
       
+      it "should automatically prepend the host for relative urls" do
+        @web_strategy = WebsiteStrategy.new('http://www.example.com')
+        downloaded_page_mock = IO.read(fixture_directory + '/basic_page.html')
+        @web_strategy.should_receive(:download_page).and_return(downloaded_page_mock)
+        @web_strategy.get_urls.should include('http://www.example.com/clickhere.html')
+      end
+      
       describe "default get_urls behavior" do
         before(:each) do
           @web_strategy = WebsiteStrategy.new('http://www.example.com')
