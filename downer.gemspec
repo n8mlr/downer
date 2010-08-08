@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{downer}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nate Miller"]
-  s.date = %q{2010-07-16}
+  s.date = %q{2010-08-08}
   s.default_executable = %q{downer}
   s.description = %q{Downer is a tool used to download a list of urls from a website thorugh HTTP.}
   s.email = %q{nate@natemiller.org}
@@ -34,13 +34,22 @@ Gem::Specification.new do |s|
      "lib/downer/application.rb",
      "lib/downer/download_item.rb",
      "lib/downer/download_manager.rb",
+     "lib/downer/download_strategy.rb",
      "lib/downer/download_worker.rb",
+     "lib/downer/generic_strategy.rb",
      "lib/downer/options.rb",
+     "lib/downer/strategies/flat_file_strategy.rb",
+     "lib/downer/strategies/website_strategy.rb",
      "spec/downer/application_spec.rb",
      "spec/downer/download_item_spec.rb",
      "spec/downer/download_manager_spec.rb",
+     "spec/downer/download_strategy_spec.rb",
      "spec/downer/download_worker_spec.rb",
      "spec/downer/generator_spec.rb",
+     "spec/downer/options_spec.rb",
+     "spec/downer/strategies/flat_file_stragtegy_spec.rb",
+     "spec/downer/strategies/website_strategy_spec.rb",
+     "spec/fixtures/basic_page.html",
      "spec/fixtures/some_images.txt",
      "spec/spec.opts",
      "spec/spec_helper.rb",
@@ -55,8 +64,12 @@ Gem::Specification.new do |s|
     "spec/downer/application_spec.rb",
      "spec/downer/download_item_spec.rb",
      "spec/downer/download_manager_spec.rb",
+     "spec/downer/download_strategy_spec.rb",
      "spec/downer/download_worker_spec.rb",
      "spec/downer/generator_spec.rb",
+     "spec/downer/options_spec.rb",
+     "spec/downer/strategies/flat_file_stragtegy_spec.rb",
+     "spec/downer/strategies/website_strategy_spec.rb",
      "spec/spec_helper.rb"
   ]
 
@@ -66,11 +79,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
   end
 end
 
