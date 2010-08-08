@@ -10,10 +10,6 @@ module Downer
       @opts = OptionParser.new do |o|
         o.banner = "Usage: downer -flags URL_SOURCE DESTINATION_DIR"
         
-        o.on('-w', '--web', 'Declare source as a url') do |url|
-          self[:is_website] = true
-        end
-        
         o.on('-i', '--image', 'When combined with w will download JPG,GIF,PNG formats') do
           self[:images_only] = true
         end

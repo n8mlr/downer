@@ -1,13 +1,24 @@
 = Downer
 
-Downer is a simple personal tool used to download a sequential list of URLs contained in a text file.
+Downer is a simple personal tool used to help you download items from the command line. Currently, there are 2 primary uses for Downer: downloading a sequential list of URLs contained in a text file and downloading a collection of images from a web page. Over time, I'd like to turn this into a truly useful downloading utility to help with frequent web development chores.
 
-== Usage:
-Create a single text file, each line containing a url you wish to download. 
+== Usage Examples:
 
-=== From bash:
+=== Downloading images from a webpage
+Type in the website url you'd like to scrape and pass downer the '-i' flag:
+
+$ downer -i http://www.cnn.com ~/Desktop/tmp # will download all <IMG> tags from site
+
+=== Downloading a single list of urls
+Create a single text file, each line containing a url you wish to download. And fire off the following command:
+
 $ downer myfile.txt ~/Desktop/myFolder # will donwload each file into the myFolder directory
 
+
+== Future versioning plans:
+
+* To enable downloads of images referenced in CSS
+* To enable downloads of images through a search engine like Google
 
 == Copyright
 
