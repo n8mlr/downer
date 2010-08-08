@@ -10,7 +10,7 @@ module Downer
   class DownloadManager
     
     attr_accessor :target_directory, :output, :source_type
-    attr_reader :urls
+    attr_reader :urls, :downloaded_files, :strategy
     
     def initialize(url_source, target_directory, output, options ={})
       @url_source = url_source
@@ -20,20 +20,45 @@ module Downer
     end
     
     def start
-      raise WriteFailed unless File.writable?(@target_directory)
+      check_directory
       
       if @strategy && @strategy.source_valid?
         urls = @strategy.get_urls
         @output.puts "Starting download on #{urls.size} files"
         worker = DownloadWorker.new(urls, @target_directory, @output)
-        worker.start
+        @downloaded_files = worker.start
+        print_session_summary(worker)
       else
         @output.puts "Could not open url source #{@url_source}"
       end
     end
     
+    # Tells us what worked and what failed
+    def print_session_summary(worker)
+      @output.puts "Session complete."
+      @output.puts "\n\n"
+      @output.puts "----------------------------------"
+      @output.puts "SUMMARY:"
+      @output.puts "Successful downloads: (#{worker.successful_downloads.size})"
+      @output.puts "Failed downloads: (#{worker.failed_downloads.size}): "
+      worker.failed_downloads.each do |fail|
+        @output.puts "  * #{fail}"
+      end
+    end
+    
     def source_type
       @strategy.source_type
+    end
+    
+    # Determine whether the direcotry specified exists. If it does not, see if its parent is writable. If not, give up
+    # and throw error
+    def check_directory
+      if File.writable?(@target_directory)
+        return true
+      else
+        #FileUtils.mkdir(@target_directory)
+        raise WriteFailed
+      end
     end
     
     protected

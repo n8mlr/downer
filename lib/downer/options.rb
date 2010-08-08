@@ -5,7 +5,7 @@ module Downer
     def initialize(args)
       @opts = args.clone
       self[:is_website] = false
-      self[:images] = false
+      self[:images_only] = false
 
       @opts = OptionParser.new do |o|
         o.banner = "Usage: downer -flags URL_SOURCE DESTINATION_DIR"
@@ -15,7 +15,7 @@ module Downer
         end
         
         o.on('-i', '--image', 'When combined with w will download JPG,GIF,PNG formats') do
-          self[:images] = true
+          self[:images_only] = true
         end
       end
       

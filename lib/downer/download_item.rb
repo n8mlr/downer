@@ -25,18 +25,23 @@ module Downer
     
     def download
       @http = Net::HTTP.new(@uri.host, @uri.port)
-      req = Net::HTTP::Get.new(@uri.request_uri)
-      response = @http.request(req)
-      
-      if response.code != '200'
-        fd = FailedDownload.new
-        fd.http_code = response.code
-        fd.url = @url
-        raise fd
+      if @uri.respond_to? :request_uri
+        req = Net::HTTP::Get.new(@uri.request_uri)
+        response = @http.request(req)
+
+        if response.code != '200'
+          fd = FailedDownload.new
+          fd.http_code = response.code
+          fd.url = @url
+          raise fd
+        else
+          @content = response.body
+          write_to_file
+        end
       else
-        @content = response.body
-        write_to_file
+        puts "WARNING: Ignored download for #{@uri.inspect}"
       end
+
     end
     
     private

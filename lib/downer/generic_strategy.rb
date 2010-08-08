@@ -3,10 +3,14 @@ module Downer
   class SubclassMethodUndefined < StandardError; end
   
   class GenericStrategy
-    
+        
     def initialize(source, search_options = {})
       @url_source = source
       @search_options = search_options
+    end
+    
+    def options
+      @search_options
     end
     
     def get_urls

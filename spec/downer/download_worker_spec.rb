@@ -12,6 +12,12 @@ module Downer
         worker.start
       end
       
+      it "should ignore arrays with nils" do
+        output.should_receive(:puts).with("No URLs specified, exiting.")
+        worker = DownloadWorker.new([nil,nil], '/tmp', output)
+        worker.start
+      end
+      
       it "should create a download object for each url to be downloaded" do
         worker = DownloadWorker.new(urls, '/tmp', output)
         worker.items.size.should == urls.size
@@ -21,14 +27,16 @@ module Downer
         bad_url = "http://www.urbaninfluence.com/will_never_succeed"
         worker = DownloadWorker.new([bad_url], '/tmp', output)
         output.should_receive(:puts).with("Could not download #{bad_url}, received http code 404")
-        worker.start
+        results = worker.start
+        results.size.should == 0
       end
       
       it "should write a message to output feed when a url is successfully downloaded" do
         good_url = "http://www.urbaninfluence.com/sites/default/files/user_uploads/images/4th.png"
         worker = DownloadWorker.new([good_url], '/tmp', output)
         output.should_receive(:puts).with("Downloaded #{good_url}")
-        worker.start
+        results = worker.start
+        results.size.should == 1
       end
     end
   end

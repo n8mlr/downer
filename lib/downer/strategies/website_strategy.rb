@@ -16,13 +16,13 @@ module Downer
         @noko = Nokogiri::HTML(download_page)
         urls = []
         
-        if @search_options[:only_images]
+        if @search_options[:images_only]
           urls = image_urls
         else
           urls = urls.concat document_links
           urls = urls.concat image_urls
         end
-        urls
+        urls.uniq
       end
       
       # read an html page into memory
@@ -33,7 +33,9 @@ module Downer
       # Return all image urls from document
       def image_urls
         urls = []      
-        @noko.css('img').each { |img| urls << img['src'] }
+        @noko.css('img').each do |img| 
+          urls << absolutify_link(img['src'])
+        end
         urls
       end
       
@@ -49,8 +51,16 @@ module Downer
       
       # Converts non absolute urls to absolute ones
       def absolutify_link(link)
+        
+        # Auto prepend any links which refer use releative reference like '../'
+        if link[0,1] == '.'
+          link = '/' + link
+        end
+        
         if link =~ /(https?|ftp).*/
           url = link
+        elsif link[0,1] != '/'
+          link = "/" + link
         else
           url = @host_prefix + link
         end
