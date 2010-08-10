@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{downer}
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nate Miller"]
-  s.date = %q{2010-08-08}
+  s.date = %q{2010-08-09}
   s.default_executable = %q{downer}
   s.description = %q{Downer is a tool used to download a list of urls from a website thorugh HTTP.}
   s.email = %q{nate@natemiller.org}
