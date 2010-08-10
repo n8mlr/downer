@@ -10,15 +10,15 @@ module Downer
     
     def initialize(url, destination)
       @url, @destination = sanitize_url(url), destination
-      @uri = URI.parse(url)
+      @uri = URI.parse(@url)      
     end
     
     # Returns the name which this file will be saved as
     def get_save_filename
-      file_name = @uri.to_s
+      file_name = CGI.unescape(@uri.to_s)
       file_name = file_name.gsub(/https?:\/\//,'').split('/').last
-      file_name = file_name.gsub('%5B', '[')
-      file_name = file_name.gsub('%5D', ']')
+      #file_name = file_name.gsub('%5B', '[')
+      #file_name = file_name.gsub('%5D', ']')
       file_name
       # TODO : refine to auto append file extentions based on content type
     end
@@ -52,12 +52,12 @@ module Downer
         fout.puts @content
       end
       
-      def sanitize_url(unsafe_url)
-        url = unsafe_url
-        url.gsub!('[', '%5B')
-        url.gsub!(']', '%5D')
-        url.gsub!(',', '%2C')
-        url
+      def sanitize_url(url)
+        unsafe_url = String.new(url)
+        scheme = unsafe_url.slice!(/(https?|ftp|smb):\/\//)
+        parts = unsafe_url.split('/')
+        parts.map! { |part| CGI::escape(part).gsub('+', '%20') }
+        scheme + parts.join('/')
       end
     end
 end

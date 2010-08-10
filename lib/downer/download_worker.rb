@@ -20,7 +20,7 @@ module Downer
       end
       
       @items.each { |item| try_download_item(item) }
-      successful_downloads
+      @successful_downloads
     end
     
     private

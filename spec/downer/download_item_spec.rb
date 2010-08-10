@@ -16,6 +16,10 @@ module Downer
         item.get_save_filename.should == 'mapsAndAtlases2.png'
       end
       
+      it "should successfully encode invalid chars into ASCII equivalents" do
+        item = DownloadItem.new('http://www.urbaninfluence.com/My File_Name With White space.png', '/tmp')
+        item.url.should == 'http://www.urbaninfluence.com/My%20File_Name%20With%20White%20space.png'
+      end
 
       it "should restore bad url tokens into valid ascii characters" do
         item = DownloadItem.new('http://www.urbaninfluence.com/my[place].html', '/tmp')

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'net/http'
+require 'cgi'
 require 'nokogiri'
 require 'optparse'
 require 'open-uri'
